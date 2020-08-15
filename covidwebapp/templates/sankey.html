@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+        <div class="row">
+            <div class="col-12">
+                <div id="{{ ids_p2[0] }}"></div>
+            </div>
+        </div>
+        
+
+        <script type="text/javascript">
+            // plots the figure with id
+            // id much match the div id above in the html
+            var figures_p2 = {{ figuresJSON_p2 | safe }};
+            var ids_p2 = {{ ids_p2 | safe }};
+    
+            Plotly.plot(ids_p2[0],
+                    figures_p2[0].data,
+                    figures_p2[0].layout || {});
+            
+          </script>
+          
+{% endblock %}
