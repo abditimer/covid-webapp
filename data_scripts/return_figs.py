@@ -18,6 +18,7 @@ class CovidFigures():
         self.totaldeaths_per_region_by_trusts()
         self.ids = ['figures-{}'.format(i) for i, _ in enumerate(self.figures)]
         self.ids_p2 = ['sankey-{}'.format(i) for i, _ in enumerate(self.figures_p2)]
+
         
 
     def totaldeaths_by_region(self):
@@ -67,6 +68,8 @@ class CovidFigures():
         )
         data = [trace0]
         self.figures.append(dict(data=data, layout=layout1))
+        self.data_page_figures = []
+        self.data_page_figures.append(dict(data=data, layout=layout1))
 
     def totaldeaths_per_region_by_trusts(self):
         """
@@ -94,3 +97,4 @@ class CovidFigures():
             #title = 'Trusts with the most deaths per region'
         )
         self.figures_p2.append(dict(data=data, layout=layout1))
+        self.data_page_figures.append(dict(data=data, layout=layout1))
