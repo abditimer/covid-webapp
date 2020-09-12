@@ -15,9 +15,9 @@ figuresJSON = json.dumps(all_figures.figures, cls=plotly.utils.PlotlyJSONEncoder
 figuresJSON_p2 = json.dumps(all_figures.figures_p2, cls=plotly.utils.PlotlyJSONEncoder)
 
 @app.route('/')
-@app.route('/index')
+@app.route('/home')
 def index():
-    return render_template('index.html', ids=ids, figuresJSON=figuresJSON)
+    return render_template('home.html', ids=ids, figuresJSON=figuresJSON)
 
 
 @app.route('/nhs-trusts')

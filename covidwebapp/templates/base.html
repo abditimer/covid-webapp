@@ -1,90 +1,62 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <title>Covid Data Dashboard</title>
-
     <style>
       html {
         scroll-behavior: smooth;
       }
     </style>
-
     <!-- responsive meta tag for bootstrap - optimise code for mobile devices-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Scripts-->
     <!-- Bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-   
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
   </head>
   <body>
-    
-    <section class="jumbotron-white text-center my-4 py-4">
-      <div class="container">
-        <h1 class="mb-0 pb-0">The Covid Project.</h1>
-        <p class="lead text-muted pb-0 border-bottom">This small project visualises data provided daily by the NHS. Click below for the source of the data.</p>
-        
-        <div class="nav-scroller py-0 mb-2">
-          <nav class="nav d-flex justify-content-between">
-            <a class="p-2 text-muted" href="index">Home</a>
-              <a class="p-2 text-muted" href="#">Deaths in the UK</a>
-              <a class="p-2 text-muted" href="nhs-trusts">NHS Trusts</a>
-              <a class="p-2 text-muted" href="#">Deaths over Time</a>
-              <a class="p-2 text-muted" href="#">Data Source</a>
-          </nav>
-        </div>
-
-
-      </div>
-    </section>
-    
-    <div class="container">
-        
-           
-          {% block content %}{% endblock %}
-            
-        
+    <!--Navigation-->
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">The Covid Project</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index">Home</a>
+        <a class="p-2 text-dark" href="nhs-trusts">Data</a>
+        <a class="p-2 text-dark" href="#">About</a>
+      </nav>
     </div>
-
-      <div class="container">
-        <!-- Links -->
-        <div class="row justify-content-center text-center pt-2">
-          <div class="col">
-            <!-- Github Link -->
-            <a href="https://github.com/abditimer">
-              <img src="/static/img/githublogo.png" class="img-fluid" alt="Github Logo" style="width:7.5%">
-            </a>
-            <!-- Linkedin Link -->
-            <a href="https://www.linkedin.com/in/abditimer/">
-                <img src="/static/img/linkedinlogo.png" class="img-fluid" alt="linkedIn logo" style="width:8%">
-            </a>
-          </div>
-          <div class="container-fluid">
-              <p class="font-weight-lighter">Created by Abdi Timer.</p>
-          </div>
+    <div class="container">  
+      {% block content %}{% endblock %}
+    </div>
+    <div class="container">
+      <!-- Links -->
+      <div class="row justify-content-center text-center pt-2">
+        <div class="col">
+          <!-- Github Link -->
+          <a href="https://github.com/abditimer">
+            <img src="/static/img/githublogo.png" class="img-fluid" alt="Github Logo" style="width:4.5%">
+          </a>
+          <!-- Linkedin Link -->
+          <a href="https://www.linkedin.com/in/abditimer/">
+              <img src="/static/img/linkedinlogo.png" class="img-fluid" alt="linkedIn logo" style="width:5%">
+          </a>
+        </div>
+        <div class="container-fluid">
+            <p class="font-weight-lighter">Created by Abdi Timer.</p>
         </div>
       </div>
-
-    
-      <script type="text/javascript">
-        // plots the figure with id
-        // id much match the div id above in the html
-        var figures = {{ figuresJSON | safe }};
-        var ids = {{ ids | safe }};
-
-        for ( var i in figures ) {
-            Plotly.plot(ids[i],
-                figures[i].data,
-                figures[i].layout || {});
-        }
-      </script>
-
-      
-
+    </div>
+    <script type="text/javascript">
+      // plots the figure with id
+      // id much match the div id above in the html
+      var figures = {{ figuresJSON | safe }};
+      var ids = {{ ids | safe }};
+      for ( var i in figures ) {
+          Plotly.plot(ids[i+1],
+              figures[i+1].data,
+              figures[i+1].layout || {});
+      }
+    </script>
     <!-- JS Components for Bootstrap-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

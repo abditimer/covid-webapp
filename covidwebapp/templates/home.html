@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<!--Title Text Row-->
+<div class="row-2" id='Header-text'>
+    <div class="row-4 mt-5">
+        <h1>Welcome.</h1>
+    </div>
+    <div class="row-4 pt-1">
+        <h5>The Covid Data Project.</h5>
+    </div>
+    <div>
+        <p>
+            This website has been built with the intention to be a technical website. 
+            The analysis should not be considered scientific, it has been created to better
+            understand the technologies that make up the individual components of this website.
+            This includes python, flask and plotly. For a more scientific study, please refer to 
+            <a href="https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-daily-deaths/">
+            the orginal source</a>.
+        </p>
+    </div>
+</div>
+<!--Pie Chart-->
+<div class="row-5 my-5" id='Deaths-by-age-piechart'>
+    <div id="{{ ids[0] }}"></div>
+</div>
+<!--Chart Explained-->
+<div class="row-3" id='Text-explain-deaths-by-age-piechart'>
+    <h2>
+        Text eplaining Piechart.
+    </h2>
+</div>
+<!--Links to other charts-->
+<div class="row-2 mt-3" id='Links-to-other-pages'>
+    <h2>
+        Linksssss.
+    </h2>
+</div>
+{% endblock %}

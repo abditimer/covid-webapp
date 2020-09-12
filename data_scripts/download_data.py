@@ -23,6 +23,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
+logging.basicConfig(level=logging.INFO)
+
 
 class CovidUKData(object):
     """Covid Data we want to analyse
@@ -42,7 +44,8 @@ class CovidUKData(object):
         self.filename = 'data/COVID-19-total-announced-deaths-' + self.fulldate + '.xlsx'
         self.filename = self.get_nhs_covid_data()
         #self.load_total_deaths_by_region = self.load_total_deaths_by_region()
-        
+        logging.info('CovidUKData object created.') 
+
     def __str__(self):
         string_to_return = f'We will be downloading the data for: {self.fulldate}. \nWe will be fetching the data from: {self.url} \nWhich we will store with the filename: {self.filename}'
         return string_to_return
@@ -54,13 +57,15 @@ class CovidUKData(object):
             self.fulldate = datetime.strftime(datetime.now(), '%-d-%B-%Y')
             self.month = datetime.now().strftime("%m")
             self.year = datetime.now().strftime("%Y")
-            print(f'Found the data: {self.fulldate}, {self.month}, {self.year}')
+            logging.info(f'Found the date: {self.fulldate}, {self.month}, {self.year}'
+)
         else:
             # yesterdays date
             self.fulldate = datetime.strftime(datetime.now() - timedelta(1), '%-d-%B-%Y')
             self.month = datetime.strftime(datetime.now() - timedelta(1), '%m')
             self.year = datetime.strftime(datetime.now() - timedelta(1), '%Y')
-        print(f'We are looking for the date: {self.fulldate}')
+            logging.info(f'We are looking for the date: {self.fulldate}'
+)
 
     def set_to_yesterday(self):
         """Changes the state of our object to refer to yesterdays data
@@ -68,9 +73,9 @@ class CovidUKData(object):
         self.build_dates(isToday = False)
         self.url = f'https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/{self.year}/{self.month}/COVID-19-total-announced-deaths-{self.fulldate}.xlsx'
         self.filename = 'data/COVID-19-total-announced-deaths-' + self.fulldate + '.xlsx'
-        print(f'The url and files to download have been changed to:')
-        print(f'url: {self.url}')
-        print(f'filename: {self.filename}')
+        logging.info(f'The url and files to download have been changed to:')
+        logging.info(f'url: {self.url}')
+        logging.info(f'filename: {self.filename}')
     
     def get_last_file_downloaded(self):
         """
@@ -81,7 +86,8 @@ class CovidUKData(object):
         """
         data_files = glob.glob('../data/*.xlsx')
         last_downloaded = max(data_files, key=os.path.getctime)
-        self.filename = last_downloaded
+        return last_downloaded
+        logging.info(f'Last file uploaded to server set as: {self.filename}')
     
     def get_nhs_covid_data(self):
         """
@@ -93,25 +99,25 @@ class CovidUKData(object):
             nhs_data (str): location of file
         """
         try:
-            print("Attempting to download from the NHS website")
+            logging.info("Attempting to download from the NHS website...")
             # Download the file from `url` and save it locally under `filename`:
             with urllib.request.urlopen(self.url) as response, open(self.filename, 'wb') as filename_to_write:
                 shutil.copyfileobj(response, filename_to_write)
-            print(f'New File downloaded: {str(self.filename)}')
+            logging.info(f'New File downloaded: {str(self.filename)}')
             return self.filename
         except:
-            print(f'url: {str(self.url)}')
-            print('Todays file is not available - attempting to downloads yesterdays')
+            logging.warning('Todays file is not available - attempting to downloads yesterdays file...') 
+            logging.info('url: {str(self.url)}') 
             self.set_to_yesterday()
-            
             try:
                 with urllib.request.urlopen(self.url) as response, open(self.filename, 'wb') as filename_to_write:
                     shutil.copyfileobj(response, filename_to_write)
-                print(f'New File downloaded: {str(self.filename)}')
+                logging.info(f'New File downloaded: {str(self.filename)}')
                 return self.filename
             except:
-                print('Today and yesterday files are not available. We will use the last available file stored on the server.')
-                self.getLastFileDownloaded()
+                logging.warning('Today and yesterday files are not available. We will use the last available file stored on the server.')
+                self.filename = self.get_last_file_downloaded()
+                return self.filename
  
     def load_total_deaths_by_region(self):
         """This returns total deaths by region
@@ -171,25 +177,26 @@ class CovidUKData(object):
         self.df_death_per_region_and_trust = df
         return self.df_death_per_region_and_trust
 
-    def scrape_data_from_nhs(self):
-        """
-        This method will scrape all links that exist on the NHS website. 
+def scrape_data_from_nhs():
+    """
+    This method will scrape all links that exist on the NHS website. 
 
-        TODO: Fix this.
-        """
-        options = Options()
-        driver = webdriver.Safari(executable_path = '/usr/bin/safaridriver') 
-        driver.get("https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-daily-deaths/")
-        try:
-            element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((by.ID, "chat"))
-            )
+    TODO: Fix this.
+    """
+    options = Options()
+    driver = webdriver.Safari(executable_path = '/usr/bin/safaridriver') 
+    driver.get("https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-daily-deaths/")
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((by.ID, "chat"))
+        )
 
-            links = driver.find_elements_by_partial_link_text("COVID 19 daily")
-            for i in links:
-                print(i)
-                i2 = i.get_attribute("href")
-                print(i2)
+        links = driver.find_elements_by_partial_link_text("COVID 19 daily")
+        for i in links:
+            print(i)
+            i2 = i.get_attribute("href")
+            print(i2)
 
-        except:
-            driver.quit()
+    except:
+        driver.quit()
+
