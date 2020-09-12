@@ -18,6 +18,7 @@ class CovidFigures():
         self.totaldeaths_per_region_by_trusts()
         self.ids = ['figures-{}'.format(i) for i, _ in enumerate(self.figures)]
         self.ids_p2 = ['sankey-{}'.format(i) for i, _ in enumerate(self.figures_p2)]
+        
 
     def totaldeaths_by_region(self):
         """
@@ -42,9 +43,11 @@ class CovidFigures():
             #     showgrid=True
             # )
         )
-
+        
         data=[trace0]
         self.figures.append(dict(data=data, layout=layout1))
+        self.deaths_by_region_chart = []
+        self.deaths_by_region_chart.append(dict(data=data, layout=layout1))
 
     def totaldeaths_by_age(self):
         """

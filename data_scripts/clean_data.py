@@ -5,6 +5,7 @@
 from data_scripts import download_data
 import plotly.graph_objs as go
 import pandas as pd
+import logging
 
 class CovidDataCleaned:
     """
@@ -23,9 +24,8 @@ class CovidDataCleaned:
             total_deaths_per_region_dict (dict):
                 Dictionary mapping regions with total deaths
         """
-        print('Cleaning data to return total deaths by region...')
+        logging.info('Cleaning data to return total deaths by region...')
         df = self.data.load_total_deaths_by_region()
-
         total_deaths_per_region_dict = df['Total'].to_dict()
 
         # TODO: create cumsum dataset
