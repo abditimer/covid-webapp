@@ -57,7 +57,7 @@ class CovidUKData(object):
             self.fulldate = datetime.strftime(datetime.now(), '%-d-%B-%Y')
             self.month = datetime.now().strftime("%m")
             self.year = datetime.now().strftime("%Y")
-            logging.info(f'Found the date: {self.fulldate}, {self.month}, {self.year}'
+            logging.info(f'Built the date: {self.fulldate}, {self.month}, {self.year}'
 )
         else:
             # yesterdays date
@@ -107,7 +107,7 @@ class CovidUKData(object):
             return self.filename
         except:
             logging.warning('Todays file is not available - attempting to downloads yesterdays file...') 
-            logging.info('url: {str(self.url)}') 
+            logging.info(f'url: {str(self.url)}') 
             self.set_to_yesterday()
             try:
                 with urllib.request.urlopen(self.url) as response, open(self.filename, 'wb') as filename_to_write:

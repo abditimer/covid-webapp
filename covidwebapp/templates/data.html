@@ -1,22 +1,69 @@
 {% extends "base.html" %}
 {% block content %}
 <!--First Explaination Section-->
-<div class='row-2'>
+<div class='row mt-5'>
     <h1>The Data Page.</h1>
     <p>Some placeholder text about how cool this whole website is. This will
         need to be changed in the near future as this is not what I wanted displayed on this site.
     </p>
 </div>
 <!-- Chart 1 Section -->
-<div class='row-2'>
-    <h2>Deaths by Age</h2>
-</div>
-<div class='row-6'>
-    <!-- Chart goes here -->
-</div>
-<div class='row-4'>
-    <p>Some explanation text about the above chart.</p>
+<div class="row py-3">
+    <div class='row-2 py-3'>
+        <h2>Deaths by Age - Pie Chart</h2>
+    </div>
+    <div class='row-6'>
+        <!-- Chart goes here -->
+        <div id="{{ ids_2[0] }}"></div>
+    </div>
+    <div class='row-4'>
+        <p>The chart above shows the split of Covid-19 related deaths split by Age. The pie chart clearly highlights how
+            most of the deaths are associated to the individuals that are above 80 years of age. This website has not been created in
+            order to draw conclusions.
+        </p>
+    </div>
 </div>
 <!-- Chart 2 Section -->
+<div class="row">
+    <div class='row-2'>
+        <h2>Deaths by Trust - Sankey Charts</h2>
+    </div>
+    <div class='row-6 mh-100 py-5 my-2'>
+        <!-- Chart goes here -->
+        <div id="{{ ids_2[1] }}"></div>
+    </div>
+    <div class='row-4'>
+        <p>Above, you can clearly see how the deaths within a region are related to the various Trusts. This utilises
+            the sankey function available in plotly, however, with customised code to build the data format required for
+            plotly in the right format.</p>
+    </div>
+</div>
+<div class='row py-4'>
+    <h3>The Data Page.</h3>
+    <p>Some placeholder text about how cool this whole website is. This will
+        need to be changed in the near future as this is not what I wanted displayed on this site.
+    </p>
+</div>
 
+<script type="text/javascript">
+    var data_figures = {{ figuresJSON_data | safe }};
+    var ids_2 = {{ ids_2 | safe }};
+    for (var i in data_figures) {
+    Plotly.plot(
+        ids_2[i],
+        data_figures[i].data,
+        data_figures[i].layout || {}
+    );
+    }
+      // charts on data page
+      // var figures_p2 = {{ figuresJSON_about | safe }};
+      // var ids_p2 = {{ ids_p2 | safe }};
+      // for ( var i in figures ) {
+      //     Plotly.plot(
+      //       ids_p2[0],
+      //       figures_p2[0].data,
+      //       figures_p2[0].layout || {}
+      //     );
+      // }
+</script>
 {% endblock %}

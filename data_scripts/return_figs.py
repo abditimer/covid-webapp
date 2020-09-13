@@ -3,22 +3,27 @@
 from data_scripts import download_data, clean_data
 import plotly.graph_objs as go
 import pandas as pd
+import logging
 
 class CovidFigures():
     """
     This class will return all the figures needed for the front end.
     """
     def __init__(self):
+        logging.info('Creating CovidFigures object...')
         self.covid_cleaned_data = clean_data.CovidDataCleaned()
+
         self.figures = []
         self.figures_p2 = []
-        # Create charts to add
+        
         self.totaldeaths_by_region()
         self.totaldeaths_by_age()
         self.totaldeaths_per_region_by_trusts()
+
         self.ids = ['figures-{}'.format(i) for i, _ in enumerate(self.figures)]
         self.ids_p2 = ['sankey-{}'.format(i) for i, _ in enumerate(self.figures_p2)]
-
+        self.home_page_names = [f'figure-{figure_name}' for figure_name, _ in enumerate(self.home_page_figure)] 
+        self.data_page_names = [f'figure-{figure_name}' for figure_name, _ in enumerate(self.data_page_figures)]
         
 
     def totaldeaths_by_region(self):
@@ -47,8 +52,9 @@ class CovidFigures():
         
         data=[trace0]
         self.figures.append(dict(data=data, layout=layout1))
-        self.deaths_by_region_chart = []
-        self.deaths_by_region_chart.append(dict(data=data, layout=layout1))
+
+        self.home_page_figure = []
+        self.home_page_figure.append(dict(data=data, layout=layout1))
 
     def totaldeaths_by_age(self):
         """
@@ -68,6 +74,7 @@ class CovidFigures():
         )
         data = [trace0]
         self.figures.append(dict(data=data, layout=layout1))
+        # send the data page
         self.data_page_figures = []
         self.data_page_figures.append(dict(data=data, layout=layout1))
 
@@ -75,7 +82,7 @@ class CovidFigures():
         """
         Sankey Chart: Shows top three trusts that have highest deaths per region
         """
-        source_and_target_distinct_list, source_list, target_list, value, colours = self.covid_cleaned_data.get_deaths_by_region_by_trust(3)
+        source_and_target_distinct_list, source_list, target_list, value, colours = self.covid_cleaned_data.get_deaths_by_region_by_trust(3, ['London', 'Midlands'])
 
         data = [ 
                     go.Sankey(

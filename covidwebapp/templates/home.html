@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <!--Title Text Row-->
-<div class="row-2" id='Header-text'>
-    <div class="row-4 mt-5">
+<div class="row-2  mt-5" id='Header-text'>
+    <div class="row-4">
         <h1>Welcome.</h1>
     </div>
     <div class="row-4 pt-1">
@@ -16,23 +16,78 @@
             This includes python, flask and plotly. For a more scientific study, please refer to 
             <a href="https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-daily-deaths/">
             the orginal source</a>.
+
+            Our Data page goes into detail into the data, providing a variety of charts
+            that visualise the current COVID 19 rates in England.
+
+            Below, you can find an example chart.
         </p>
     </div>
 </div>
 <!--Pie Chart-->
-<div class="row-5 my-5" id='Deaths-by-age-piechart'>
+<div class="row-5 my-5 py-5" id='Deaths-by-age-piechart'>
     <div id="{{ ids[0] }}"></div>
 </div>
 <!--Chart Explained-->
 <div class="row-3" id='Text-explain-deaths-by-age-piechart'>
     <h2>
-        Text eplaining Piechart.
+        Deaths in England split by Region.
     </h2>
+    <p>
+        The chart above shows the death count in England, split into 
+        the different regions in the UK. for example, you can see 
+        that both London and the midlands have a high death count, with 
+        the north west closely following.
+
+        In the data page, we will look further into the data, as we try 
+        to get a clearer picture of the current state in the uk.
+    </p>
 </div>
 <!--Links to other charts-->
-<div class="row-2 mt-3" id='Links-to-other-pages'>
+<div class="row-2 my-3 py-3" id='Links-to-other-pages'>
     <h2>
-        Linksssss.
+        Other useful links...
     </h2>
-</div>
+    <div class="card-deck">
+        <div class="card">
+          <img class="card-img-top" src="https://www.secularism.org.uk/images/183081/large.png" alt="NHS logo"> 
+            <div class="card-body">
+                <h5 class="card-title">NHS Data Source</h5> 
+                <p class="card-text">The original data source - updated weekly by the NHS.</p>
+            </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 2 hours ago</small>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img-top" src="https://www.newbridge-health.org.uk/wp-content/uploads/2019/08/bbc-logo.jpg" alt="BBC image">
+          <div class="card-body">
+            <h5 class="card-title">BBC News</h5>
+            <p class="card-text">Find the latest data related to corona virus...</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img-top" src="https://www.gov.uk/assets/static/opengraph-image-a1f7d89ffd0782738b1aeb0da37842d8bd0addbd724b8e58c3edbc7287cc11de.png" alt="UK Gov">
+          <div class="card-body">
+            <h5 class="card-title">UK Government</h5>
+            <p class="card-text">Find out the latest updates from the UK government on Covid-19.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 8 days ago</small>
+          </div> 
+
+<script type="text/javascript">
+    var home_figures = {{ figuresJSON_home | safe }};
+    var ids = {{ ids | safe }};
+    for (var i in home_figures) {
+      Plotly.plot(
+        ids[i],
+        home_figures[i].data,
+        home_figures[i].layout || {}
+      );
+    }
+  </script>
 {% endblock %}

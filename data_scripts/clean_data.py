@@ -59,7 +59,7 @@ class CovidDataCleaned:
         total_deaths_per_age_group_dict = df['Total'].to_dict()
         return total_deaths_per_age_group_dict
 
-    def get_deaths_by_region_by_trust(self, split_by):
+    def get_deaths_by_region_by_trust(self, split_by_trust, region_list):
         """
         This method returns each regions death data for the UK.
 
@@ -85,9 +85,13 @@ class CovidDataCleaned:
         df.reset_index(inplace=True)
         df = df.rename(columns={'NHS England Region': 'Region', 'Name': 'Trust'})
         df = df.replace('London ', 'London')
+        print(df.Region.value_counts())
+        df = df[ (df['Region'].isin(region_list)) ]
+        print(df.Region.value_counts()) 
         # find three trusts per region with the highest deaths
         df_agg = df.groupby(['Region','Trust']).max()
-        df_agg = df_agg['Total'].groupby(level=0, group_keys=False).nlargest(split_by)
+        df_agg = df_agg['Total'].groupby(level=0, group_keys=False).nlargest(split_by_trust)
+        
         df_agg = df_agg.reset_index()
         # create lists for each column of interest
         sources = df_agg['Region'].tolist()
