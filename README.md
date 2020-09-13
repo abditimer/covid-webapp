@@ -5,7 +5,7 @@ This project has been created to be able to analyse & visualise UK Covid-19 rela
 This website was developed utilising python as the back-end, and HTML, CSS and JS for the front-end. It was deployed using heroku.
 
 ## Images of the final product
-![pic1](1.png)
-![pic2](2.png)
-![pic3](3.png)
-![pic4](4.png)
+[pic1](1.png)
+[pic2](2.png)
+[pic3](3.png)
+[pic4](4.png)
